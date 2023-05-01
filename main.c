@@ -40,7 +40,7 @@ int main() {
                 scanf("%d", &num_seats);
                 printf("Enter departure time: ");
                 scanf("%d", &departure_time);
-                head = insert_flight(&head, flight_id, destination, num_seats, departure_time);
+                head = insertFlight(&head, flight_id, destination, num_seats, departure_time);
                 break;
             case 2:
                 printf("Enter flight ID: ");
@@ -53,7 +53,7 @@ int main() {
                     scanf("%d", &age);
                     printf("Enter seat number: ");
                     scanf("%d", &seat_number);
-                    insert_traveler_to_flight(flight, name, age, seat_number);
+                    insertTravelerToFlight(flight, name, age, seat_number);
                 } else {
                     printf("Flight not found.\n");
                 }
@@ -63,7 +63,7 @@ int main() {
                 scanf("%s", flight_id);
                 flight = find_flight_by_id(head, flight_id);
                 if (flight) {
-                    print_the_flight(flight);
+                    prinTheFlight(flight);
                 } else {
                     printf("Flight not found.\n");
                 }
@@ -71,12 +71,12 @@ int main() {
             case 4:
                 printf("Enter departure time: ");
                 scanf("%d", &departure_time);
-                search_flight_by_takeoff_time(head, departure_time);
+                searchFlightByTakeoffTime(head, departure_time);
                 break;
             case 5:
                 printf("Enter flight ID: ");
                 scanf("%s", flight_id);
-                remove_flight(&head, flight_id);
+                removeFlight(&head, flight_id);
                 break;
             case 6:
                 printf("Enter flight ID: ");
@@ -85,7 +85,7 @@ int main() {
                 if (flight) {
                     printf("Enter seat number: ");
                     scanf("%d", &seat_number);
-                    remove_traveler_reservation(flight, seat_number);
+                    removeTravelerReservaton(flight, seat_number);
                 } else {
                     printf("Flight not found.\n");
                 }
