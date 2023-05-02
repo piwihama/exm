@@ -5,7 +5,7 @@
 
 FLIGHT* insert_flight(FLIGHT** head, const char* flight_id, const char* destination, int num_seats, int departure_time) {
     // Allocate memory for the new flight
-    FLIGHT* new_flight = (FLIGHT*)malloc(sizeof(Flight));
+    FLIGHT* new_flight = (FLIGHT*)malloc(sizeof(FLIGHT));
 
     if (new_flight == NULL) {
         printf("Memory allocation for the new flight failed.\n");
@@ -73,10 +73,10 @@ bool insertTravelerToFlight(FLIGHT *flight, const char *name, int age, int seat_
     new_passenger->next = NULL;
 
     // Insert the passenger into the list, maintaining the list order
-    if (flight->passenger_list == NULL) {
-        flight->passenger_list = new_passenger;
+    if (flight->passengers_head == NULL) {
+        flight->passengers_head = new_passenger;
     } else {
-        PASSENGER *current = flight->passenger_list;
+        PASSENGER *current = flight->passengers_head;
         PASSENGER *previous = NULL;
 
         while (current != NULL && current->seat_number < seat_number) {
@@ -85,8 +85,8 @@ bool insertTravelerToFlight(FLIGHT *flight, const char *name, int age, int seat_
         }
 
         if (previous == NULL) {
-            new_passenger->next = flight->passenger_list;
-            flight->passenger_list = new_passenger;
+            new_passenger->next = flight->passengers_head;
+            flight->passengers_head = new_passenger;
         } else {
             new_passenger->next = current;
             previous->next = new_passenger;
@@ -97,7 +97,7 @@ bool insertTravelerToFlight(FLIGHT *flight, const char *name, int age, int seat_
 }
 
 
-int searchFlightWithTakeoffTime(FLIGHT *head, int departure_time) {
+int searchFlightByTakeoffTime(FLIGHT *head, int departure_time) {
     FLIGHT *current = head;
     int position = 1;
 
@@ -267,4 +267,75 @@ FLIGHT* find_flight_by_id(FLIGHT* head, const char* flight_id) {
         current = current->next;
     }
     return NULL; // Flight not found
+}
+
+FLIGHT* searchFlightByID(FLIGHT *head, const char *flight_id) {
+    FLIGHT *current = head;
+
+    while (current != NULL) {
+        if (strcmp(current->flight_id, flight_id) == 0) {
+            return current;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+void freeFlightList(FLIGHT *head) {
+    FLIGHT *current = head;
+    FLIGHT *next;
+
+    while (current != NULL) {
+        next = current->next;
+        freePassengerList(current->passengers_head);
+        free(current);
+        current = next;
+    }
+}
+
+
+void freePassengerList(PASSENGER *head) {
+    PASSENGER *current = head;
+    PASSENGER *next = NULL;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current->name);
+        free(current);
+        current = next;
+    }
+}
+
+
+void printTheFlight(FLIGHT *head, int n) {
+    FLIGHT *current = head;
+    int i;
+
+    // Traverse the list to find the flight at position N
+    for (i = 1; i < n && current != NULL; i++) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Flight not found at position %d.\n", n);
+        return;
+    }
+
+    // Print the flight details
+    printf("Flight details at position %d:\n", n);
+    printf("Flight ID: %s\n", current->flight_id);
+    printf("Destination: %s\n", current->destination);
+    printf("Number of seats: %d\n", current->num_seats);
+    printf("Departure time: %d\n", current->departure_time);
+
+    // Print the passenger details for each passenger in the flight
+    printf("Passenger list:\n");
+    PASSENGER *passenger = current->passengers_head;
+    while (passenger != NULL) {
+        printf("Seat number: %d\n", passenger->seat_number);
+        printf("Name: %s\n", passenger->name);
+        printf("Age: %d\n", passenger->age);
+        printf("-----\n");
+        passenger = passenger->next;
+    }
 }
