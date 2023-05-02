@@ -26,6 +26,8 @@ void removeFlight(FLIGHT **head, const char *flight_id);
 bool changeTravelersSeat(FLIGHT *flight, const char *name, int new_seat_number);
 void findTravelerInFlights(FLIGHT *head, const char *name);
 FLIGHT* find_flight_by_id(FLIGHT* head, const char* flight_id);
-
+FLIGHT* searchFlightByID(FLIGHT *head, const char *flight_id);
+void freeFlightList(FLIGHT *head);
+void freePassengerList(PASSENGER *head);
 
 #endif // FLIGHT_H
