@@ -79,17 +79,22 @@ int main() {
                 removeFlight(&head, flight_id);
                 break;
             case 6:
-                printf("Enter flight ID: ");
-                scanf("%s", flight_id);
-                flight = find_flight_by_id(head, flight_id);
-                if (flight) {
-                    printf("Enter seat number: ");
-                    scanf("%d", &seat_number);
-                    removeTravelerReservaton(flight, seat_number);
-                } else {
-                    printf("Flight not found.\n");
-                }
-                break;
+				printf("Enter the takeoff time to search for a flight (HH:MM): ");
+				fgets(buffer, BUFFER_SIZE, stdin);
+				sscanf(buffer, "%2d:%2d", &search_time.tm_hour, &search_time.tm_min);
+
+				flight = searchFlightByTakeoffTime(head, search_time);
+				if (flight == NULL) {
+					printf("No flight found with the specified takeoff time.\n");
+				} else {
+					printf("Flight found:\n");
+					printf("ID: %d\n", flight->id);
+					printf("Destination: %s\n", flight->destination);
+					printf("Number of seats: %d\n", flight->num_seats);
+					printf("Departure time: %02d:%02d\n", flight->departure_time.tm_hour, flight->departure_time.tm_min);
+				}
+				break;
+
 		            case 7:
                 printf("Enter flight ID: ");
                 scanf("%s", flight_id);
