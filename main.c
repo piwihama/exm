@@ -21,6 +21,7 @@ void display_menu() {
 int main() {
     FLIGHT* head = NULL;
     int choice;
+	int n;
     char flight_id[10];
     char destination[50];
     char name[50];
@@ -40,7 +41,7 @@ int main() {
                 scanf("%d", &num_seats);
                 printf("Enter departure time: ");
                 scanf("%d", &departure_time);
-                head = insertFlight(&head, flight_id, destination, num_seats, departure_time);
+                head = insert_flight(&head, flight_id, destination, num_seats, departure_time);
                 break;
             case 2:
                 printf("Enter flight ID: ");
@@ -59,15 +60,14 @@ int main() {
                 }
                 break;
             case 3:
-                printf("Enter flight ID: ");
-                scanf("%s", flight_id);
-                flight = find_flight_by_id(head, flight_id);
-                if (flight) {
-                    prinTheFlight(flight);
-                } else {
-                    printf("Flight not found.\n");
-                }
+
+
+                printf("Enter the position of the flight: ");
+                scanf("%d", &n);
+
+                printTheFlight(head, n);
                 break;
+            
             case 4:
                 printf("Enter departure time: ");
                 scanf("%d", &departure_time);
@@ -109,11 +109,12 @@ int main() {
                 scanf("%s", name);
                 findTravelerInFlights(head, name);
                 break;
-            case 9:
+			case 9:
                 printf("Exiting the program...\n");
                 freeFlightList(head);
                 exit(0);
             default:
+				break;
         }
     }
 
